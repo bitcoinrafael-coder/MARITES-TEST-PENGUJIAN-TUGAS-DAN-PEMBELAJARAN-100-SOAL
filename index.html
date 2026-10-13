@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MARITEST — Kelistrikan Kapal | Poltekpel Surabaya</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--bg:#08131f;--bg2:#0d1c2b;--panel:#122436;--panel2:#17304a;--line:#1f3d59;--txt:#e8f1f8;--dim:#8fa9c0;--accent:#00d4a0;--accent2:#ffb020;--red:#ff4d5e;--blue:#3ea6ff;--fs:15px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:radial-gradient(1200px 600px at 10% -10%,#10304a 0,transparent 60%),radial-gradient(900px 500px at 110% 10%,#0b3b39 0,transparent 55%),var(--bg);color:var(--txt);min-height:100vh;font-size:var(--fs)}
+body.light{--bg:#f0f4f8;--bg2:#e2e8f0;--panel:#fff;--panel2:#eef2f6;--line:#cbd5e1;--txt:#1e293b;--dim:#64748b;background:linear-gradient(160deg,#f0f4f8,#e2e8f0)}
+.navbar{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(9,22,35,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);flex-wrap:wrap}
+body.light .navbar{background:rgba(255,255,255,.94)}
+.brand{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.logo{width:34px;height:34px;flex:none;border-radius:9px;background:linear-gradient(135deg,var(--accent),#0090ff);display:grid;place-items:center;font-size:17px;box-shadow:0 0 14px rgba(0,212,160,.35)}
+.brand h1{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-size:9.5px;color:var(--dim)}
+.nav-stats{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.pill{background:var(--panel);border:1px solid var(--line);padding:4px 9px;border-radius:999px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.pill b{color:var(--accent2)}.pill.ok b{color:var(--accent)}.pill.no b{color:var(--red)}
+.pill.taruna{background:linear-gradient(135deg,rgba(0,212,160,.15),rgba(62,166,255,.15));border-color:rgba(0,212,160,.4);max-width:220px;overflow:hidden}
+.pill.taruna b{color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:170px}
+.pill.time b{color:var(--blue)}.pill.time.warn b{color:var(--accent2)}.pill.time.danger b{color:var(--red)}
+.icon-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--txt);cursor:pointer;font-size:15px;display:grid;place-items:center;flex:none}
+.icon-btn:hover{background:var(--panel2);border-color:var(--accent)}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--txt);padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}
+.btn:hover{background:var(--panel2);border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),#00a882);border:none;color:#03231c}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent}
+.btn.warn{background:linear-gradient(135deg,#ffb020,#ff8c00);border:none;color:#1a0e00;font-weight:700}
+.btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);border:none;color:#fff;font-weight:700}
+.btn.wa:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.wrap{max-width:900px;margin:0 auto;padding:14px 12px 80px}
+.hidden{display:none!important}
+.hero{background:linear-gradient(160deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:24px 18px;text-align:center;margin-top:10px}
+.hero .badge{display:inline-block;background:rgba(0,212,160,.12);color:var(--accent);border:1px solid rgba(0,212,160,.35);padding:4px 12px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:1px}
+.hero h2{font-size:21px;margin:14px 0 6px;line-height:1.3}
+.hero p{color:var(--dim);font-size:13px;line-height:1.6;max-width:560px;margin:0 auto}
+.credit{margin-top:14px;font-size:11.5px;color:var(--dim);line-height:1.7}
+.credit b{color:var(--accent2)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:18px 0 4px}
+.meta div{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 8px}
+.meta span{display:block;font-size:10px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.meta strong{font-size:15px;color:var(--accent)}
+.mode-banner{margin-top:16px;padding:14px 16px;background:linear-gradient(135deg,rgba(255,176,32,.15),rgba(255,140,0,.08));border:1.5px solid rgba(255,176,32,.45);border-radius:14px;text-align:center}
+.mode-banner .mode-title{font-size:11px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+.mode-banner .mode-value{font-size:26px;font-weight:800;color:var(--accent2);margin-top:4px;letter-spacing:1px}
+.mode-banner .mode-sub{font-size:11.5px;color:var(--dim);margin-top:4px}
+.rules-box{text-align:left;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:16px}
+.rules-box h3{font-size:14px;color:var(--accent);margin-bottom:10px}
+.rules-box ol{padding-left:20px;font-size:12.5px;line-height:1.85;color:#c9dcec}
+body.light .rules-box ol{color:#475569}
+.rules-box ol li{margin-bottom:6px}
+.rules-box ol li b{color:var(--accent2)}
+.passbox{background:linear-gradient(135deg,rgba(0,212,160,.12),rgba(62,166,255,.08));border:1px solid rgba(0,212,160,.35);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:12.5px;line-height:1.7}
+.passbox b{color:var(--accent)}
+.passbox .kkm{font-size:22px;font-weight:800;color:var(--accent)}
+.rules-check{display:flex;align-items:center;gap:10px;margin-top:14px;padding:11px 14px;background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.35);border-radius:10px;font-size:12.5px;cursor:pointer;user-select:none}
+.rules-check input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex:none}
+.qbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.qbar .num{font-size:11.5px;color:var(--dim);font-weight:600}
+.track{flex:1;height:6px;background:var(--panel);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#0090ff);transition:width .3s}
+.card{background:linear-gradient(170deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:3px 9px;border-radius:6px;background:rgba(62,166,255,.12);color:var(--blue);border:1px solid rgba(62,166,255,.3)}
+.tag.m{background:rgba(255,176,32,.12);color:var(--accent2);border-color:rgba(255,176,32,.3)}
+.tag.cat{background:rgba(0,212,160,.1);color:var(--accent);border-color:rgba(0,212,160,.25)}
+.tag.attempt{background:rgba(62,166,255,.15);color:var(--blue);border-color:rgba(62,166,255,.35)}
+.qtext{font-size:calc(var(--fs) + 2px);line-height:1.55;font-weight:600;margin-bottom:16px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;background:var(--bg2);border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;text-align:left;color:var(--txt);font-family:inherit;font-size:calc(var(--fs) + .5px);line-height:1.45;width:100%;transition:.15s}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--panel2);transform:translateX(3px)}
+.opt .k{width:24px;height:24px;flex:none;border-radius:7px;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:800;color:var(--dim)}
+.opt.correct{border-color:var(--accent);background:rgba(0,212,160,.12)}
+.opt.correct .k{background:var(--accent);color:#03231c;border-color:var(--accent)}
+.opt.wrong{border-color:var(--red);background:rgba(255,77,94,.1)}
+.opt.wrong .k{background:var(--red);color:#fff;border-color:var(--red)}
+.opt.locked{cursor:default}.opt.dim{opacity:.45}
+.navrow{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.navrow .btn{flex:1;padding:11px;min-width:110px}
+.idform{display:grid;gap:12px;margin:20px 0 8px;text-align:left}
+.idform label{font-size:11.5px;color:var(--dim);font-weight:600;display:block;margin-bottom:4px}
+.idform input,.idform select{width:100%;background:var(--bg2);border:1.5px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit}
+.idform input:focus,.idform select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,160,.15)}
+.idgrid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.idgrid2{grid-template-columns:1fr}}
+.overlay{position:fixed;inset:0;background:rgba(3,9,16,.8);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:14px;z-index:200;animation:fade .18s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{width:100%;max-width:460px;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.6);max-height:92vh;display:flex;flex-direction:column;animation:pop .25s}
+@keyframes pop{from{transform:scale(.9) translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.mhead{padding:16px 18px 12px;display:flex;align-items:center;gap:10px;flex:none}
+.mhead.ok{background:linear-gradient(135deg,rgba(0,212,160,.2),transparent)}
+.mhead.no{background:linear-gradient(135deg,rgba(255,77,94,.2),transparent)}
+.mico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:21px;flex:none;font-weight:800}
+.mhead.ok .mico{background:rgba(0,212,160,.22);border:1.5px solid rgba(0,212,160,.6);color:var(--accent)}
+.mhead.no .mico{background:rgba(255,77,94,.22);border:1.5px solid rgba(255,77,94,.6);color:var(--red)}
+.mhead h3{font-size:16.5px}.mhead p{font-size:11.5px;color:var(--dim);margin-top:2px}
+.mbody{padding:0 18px 16px;overflow-y:auto;flex:1}
+.mbody .lbl{font-size:10px;letter-spacing:.7px;color:var(--dim);text-transform:uppercase;font-weight:700;margin-bottom:5px}
+.mbody .ans{background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.5;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px}
+.mbody .ans .bdg{font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;flex:none;margin-top:1px}
+.mbody .ans.ok{border-color:rgba(0,212,160,.5);background:rgba(0,212,160,.08)}
+.mbody .ans.ok .bdg{background:var(--accent);color:#03231c}
+.mbody .ans.no{border-color:rgba(255,77,94,.5);background:rgba(255,77,94,.06)}
+.mbody .ans.no .bdg{background:var(--red);color:#fff}
+.mbody .exp{font-size:13px;line-height:1.65;color:#c9dcec;background:rgba(62,166,255,.06);border-left:3px solid var(--blue);padding:10px 12px;border-radius:8px}
+body.light .mbody .exp{color:#475569}
+.mfoot{padding:0 18px 18px;flex:none}.mfoot .btn{width:100%;padding:12px}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(340px,88vw);z-index:150;background:var(--bg2);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;pointer-events:none}
+.drawer.open{transform:none;pointer-events:auto}
+.dhead{padding:14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.dhead h4{font-size:13px}
+.legend{display:flex;gap:10px;font-size:10px;color:var(--dim);margin-top:4px;flex-wrap:wrap}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px}
+.dgrid{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;align-content:start}
+.dgrid button{aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--dim);font-weight:700;font-size:11px;cursor:pointer;font-family:inherit}
+.dgrid button:hover{border-color:var(--accent);color:var(--txt)}
+.dgrid button.cur{outline:2px solid var(--blue);outline-offset:1px;color:#fff}
+.dgrid button.ok{background:rgba(0,212,160,.18);color:var(--accent);border-color:rgba(0,212,160,.45)}
+.dgrid button.no{background:rgba(255,77,94,.16);color:var(--red);border-color:rgba(255,77,94,.45)}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:140;opacity:0;pointer-events:none;transition:.25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.settings-panel{position:fixed;top:60px;right:12px;z-index:160;width:min(320px,90vw);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 16px 40px rgba(0,0,0,.5);display:none}
+.settings-panel.open{display:block;animation:pop .18s}
+.settings-panel h4{font-size:12.5px;margin-bottom:12px;color:var(--accent)}
+.set-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:12.5px;gap:10px}
+.set-row label{color:var(--dim);flex:1}
+.set-row select{background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 10px;font-size:12px;font-family:inherit;min-width:110px}
+
+/* PRINT AREA — PUTIH + HITAM */
+#printArea{background:#ffffff !important;color:#0f172a !important;border-radius:16px;padding:22px 20px;text-align:left;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+#printArea .result-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px;border-bottom:2px solid #0f172a;padding-bottom:10px}
+#printArea .result-id{font-size:11.5px;line-height:1.7;text-align:left;color:#0f172a}
+#printArea .result-id b{color:#0f172a}
+#printArea .result-id span{color:#334155 !important}
+#printArea .idcard{background:#f1f5f9 !important;border:1px solid #cbd5e1 !important;color:#0f172a !important;border-radius:10px;padding:12px 14px;margin:0 0 14px;font-size:13px;line-height:1.8}
+#printArea .idcard b{color:#0f172a}
+#printArea .attempt-badge{display:inline-block;background:#dbeafe !important;color:#1e40af !important;border:1px solid #93c5fd !important;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:10px}
+#printArea .ring{width:130px;height:130px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;background:#f1f5f9 !important;box-shadow:none !important}
+#printArea .ring .inner{width:104px;height:104px;border-radius:50%;background:#ffffff !important;display:grid;place-items:center;flex-direction:column;border:2px solid #e2e8f0}
+#printArea .ring .val{font-size:32px;font-weight:800;line-height:1;color:#0f172a !important}
+#printArea .ring .sub{font-size:10px;color:#64748b !important;letter-spacing:1px;margin-top:3px}
+#printArea .grade{font-size:20px;font-weight:800;margin-bottom:3px;color:#0f172a !important;text-align:center}
+#printArea .verdict{display:inline-block;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:800;letter-spacing:1px;margin:8px 0}
+#printArea .verdict.lulus{background:#d1fae5 !important;color:#065f46 !important;box-shadow:none !important}
+#printArea .verdict.remidi{background:#fef3c7 !important;color:#92400e !important;box-shadow:none !important}
+#printArea .verdict.gagal{background:#fee2e2 !important;color:#991b1b !important;box-shadow:none !important}
+#printArea .grade + #verdictWrap{text-align:center}
+#printArea p#resMsg{color:#334155 !important;font-size:12.5px;text-align:center;margin-top:6px}
+#printArea .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0;text-align:center}
+#printArea .meta div{background:#f8fafc !important;border:1px solid #cbd5e1 !important;border-radius:10px;padding:10px 8px}
+#printArea .meta span{display:block;font-size:10px;color:#64748b !important;letter-spacing:.5px;text-transform:uppercase}
+#printArea .meta strong{font-size:16px;color:#0f172a !important}
+#printArea .rlist{display:grid;gap:6px;margin-top:14px;text-align:left}
+#printArea .rrow{display:flex;align-items:center;gap:8px;background:#f8fafc !important;border:1px solid #cbd5e1 !important;border-radius:8px;padding:8px 11px;font-size:12px;color:#0f172a !important}
+#printArea .rrow b{margin-left:auto;color:#0f172a !important}
+#printArea .bar{height:5px;width:60px;background:#e2e8f0 !important;border-radius:99px;overflow:hidden}
+#printArea .bar i{display:block;height:100%;background:#0f172a !important}
+#printArea h4{font-size:12.5px;color:#0f172a !important;margin:16px 0 8px;border-bottom:1px solid #cbd5e1;padding-bottom:5px;font-weight:700}
+#printArea .history-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:11.5px;background:#ffffff !important}
+#printArea .history-table th,#printArea .history-table td{border:1px solid #cbd5e1 !important;padding:6px 8px;text-align:left;color:#0f172a !important;background:#ffffff !important}
+#printArea .history-table th{background:#f1f5f9 !important;color:#334155 !important;font-weight:700}
+#printArea .session-info{font-size:11px;color:#64748b !important;margin-top:6px}
+#printArea .print-answers{margin-top:18px;text-align:left;font-size:11.5px;line-height:1.55;border-top:2px solid #0f172a;padding-top:12px}
+#printArea .print-answers h4{font-size:12.5px;color:#0f172a !important;margin:10px 0 10px;font-weight:700}
+#printArea .print-answers .pa-item{background:#f8fafc !important;border:1px solid #cbd5e1 !important;border-radius:8px;padding:10px 12px;margin-bottom:9px;page-break-inside:avoid}
+#printArea .print-answers .pa-q{font-weight:700;color:#0f172a !important;margin-bottom:6px;font-size:12px}
+#printArea .print-answers .pa-line{display:flex;gap:6px;padding:2px 0;align-items:flex-start;color:#0f172a !important}
+#printArea .print-answers .pa-key{font-weight:800;width:22px;flex:none;color:#64748b !important}
+#printArea .print-answers .pa-ok{color:#047857 !important;font-weight:800}
+#printArea .print-answers .pa-no{color:#b91c1c !important;font-weight:800}
+#printArea .print-answers .pa-exp{margin-top:7px;padding:7px 9px;background:#eff6ff !important;border-left:3px solid #3b82f6;border-radius:5px;color:#1e3a8a !important;font-size:11px;line-height:1.55}
+
+.result-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center}
+.result-hint{text-align:center;margin-top:10px;font-size:11px;color:var(--dim)}
+
+@media(max-width:560px){
+  .brand h1{font-size:11px}.brand small{font-size:8.5px}
+  .pill{padding:3px 7px;font-size:10px}
+  .pill.taruna b{max-width:110px}
+  .hero h2{font-size:18px}.qtext{font-size:14.5px}
+  .card{padding:15px}.navbar{padding:6px 8px;gap:5px}
+  .opt{padding:10px 11px;font-size:13px}
+  .modal{max-width:100%}
+  .settings-panel{right:8px;left:8px;width:auto}
+  #printArea{padding:16px 12px}
+  #printArea .meta{grid-template-columns:repeat(2,1fr)}
+  #printArea .result-header{flex-direction:column}
+  .result-actions .btn{flex:1;min-width:calc(50% - 4px);padding:11px 8px;font-size:12px}
+}
+
+@media print{
+  body{background:#fff !important}
+  .navbar,.settings-panel,.drawer,.scrim,.result-actions,.result-hint,.overlay{display:none !important}
+  .wrap{max-width:100%;padding:0}
+  #resultScreen{padding:0}
+  #printArea{box-shadow:none;border-radius:0;padding:12px;background:#fff !important;color:#000 !important}
+  .result-header{border-bottom:2px solid #000 !important}
+  .pa-item{page-break-inside:avoid}
+  @page{size:A4;margin:10mm}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="brand">
+    <div class="logo">⚓</div>
+    <div style="min-width:0">
+      <h1>MARITEST — KELISTRIKAN KAPAL</h1>
+      <small>Marine Intelligent Test • Poltekpel Surabaya</small>
+    </div>
+  </div>
+  <div class="nav-stats">
+    <div class="pill taruna" id="tarunaPill" style="display:none">👤 <b id="navTaruna">—</b></div>
+    <div class="pill ok">✓ <b id="statOk">0</b></div>
+    <div class="pill no">✕ <b id="statNo">0</b></div>
+    <div class="pill time" id="timePill">⏱ <b id="statTime">--:--</b></div>
+    <div class="pill" id="attemptPill">🔄 <b id="statAttempt">0</b>/5</div>
+    <button type="button" class="icon-btn" id="btnSettings" title="Pengaturan">⚙</button>
+    <button type="button" class="icon-btn" id="btnDrawer" title="Navigasi">☰</button>
+  </div>
+</nav>
+
+<div class="settings-panel" id="settingsPanel">
+  <h4>⚙ PENGATURAN TAMPILAN</h4>
+  <div class="set-row"><label>Tema</label>
+    <select id="setTheme"><option value="dark">Gelap</option><option value="light">Terang</option></select></div>
+  <div class="set-row"><label>Ukuran Teks</label>
+    <select id="setFont"><option value="14">Kecil</option><option value="15" selected>Sedang</option><option value="17">Besar</option></select></div>
+</div>
+
+<!-- START -->
+<div class="wrap" id="startScreen">
+  <div class="hero">
+    <span class="badge">MARITEST • 70% ELECTRICAL / 30% ELECTRONIC</span>
+    <h2>Kelistrikan Kapal — Dasar GA & Permesinan Kapal</h2>
+    <p>Bank soal pilihan ganda untuk Taruna Teknika &amp; ETO Semester 1A &amp; 1B.</p>
+    <div class="credit">Disusun oleh: <b>Rafael Sukirno, CE</b><br>Politeknik Pelayaran (Poltekpel) Surabaya</div>
+    <div class="meta">
+      <div><span>Bank Soal</span><strong id="metaTotal">0</strong></div>
+      <div><span>Electrical</span><strong id="metaE">0</strong></div>
+      <div><span>Electronic</span><strong id="metaEL">0</strong></div>
+      <div><span>Waktu</span><strong>3 Jam</strong></div>
+    </div>
+
+    <div class="mode-banner">
+      <div class="mode-title">📝 MODE UJIAN</div>
+      <div class="mode-value">100 SOAL</div>
+      <div class="mode-sub">Waktu 180 menit • Maksimal 5x percobaan</div>
+    </div>
+
+    <div class="rules-box">
+      <h3>📜 TATA CARA PERMAINAN MARITEST</h3>
+      <ol>
+        <li><b>Jumlah soal:</b> <b>100 soal</b> pilihan ganda (A/B/C/D) dengan jawaban diacak otomatis.</li>
+        <li><b>Durasi sesi:</b> total waktu <b id="ruleDurasi">180 menit</b> sejak test pertama dimulai.</li>
+        <li><b>Kesempatan mengulang:</b> maksimal <b id="ruleAttempts">5 kali</b> dalam sesi yang sama. Setiap mengulang, soal &amp; jawaban <b>diacak ulang dari awal</b>.</li>
+        <li><b>Tombol "Selesai Sekarang":</b> bisa mengakhiri test kapan saja — <b>skor tetap dihitung dari 100 soal</b>, soal yang belum dijawab dianggap <b>kosong (nilai 0)</b>.</li>
+        <li><b>Popup pembahasan:</b> setiap jawaban langsung muncul pembahasan singkat.</li>
+        <li><b>Hasil:</b> cetak PDF, print browser, atau kirim ke dosen via WhatsApp.</li>
+      </ol>
+
+      <div class="passbox">
+        <div style="font-size:12px;color:var(--dim);margin-bottom:4px">🎯 STANDAR KELULUSAN (KKM)</div>
+        <div class="kkm">≥ <span id="ruleKKM">70</span> / 100</div>
+        <div style="margin-top:6px">• <b>≥ 85</b> → <b>LULUS - EXCELLENT</b> ⭐⭐⭐<br>
+        • <b>70–84</b> → <b>LULUS - BAIK</b> ⭐⭐<br>
+        • <b>60–69</b> → <b>REMIDI</b><br>
+        • <b>&lt; 60</b> → <b>BELUM LULUS</b></div>
+        <div style="margin-top:8px;font-size:11.5px;color:var(--dim);font-style:italic">💡 Cetak PDF atau kirim hasil ke dosen pengampu: Rafael Sukirno, CE.</div>
+      </div>
+
+      <label class="rules-check">
+        <input type="checkbox" id="agreeRules">
+        <span>Saya sudah <b>membaca &amp; memahami</b> tata cara permainan dan siap mengerjakan dengan jujur.</span>
+      </label>
+    </div>
+
+    <div id="sessionStatus" style="margin-top:14px;font-size:11.5px;color:var(--dim)"></div>
+    <button type="button" class="btn primary" id="btnStart" disabled style="margin-top:14px;padding:13px 38px;font-size:14px;opacity:.4">🚀 MULAI TEST</button>
+  </div>
+</div>
+
+<!-- IDENTITY -->
+<div class="wrap hidden" id="identityScreen">
+  <div class="card">
+    <h2 style="font-size:18px;margin-bottom:6px">📋 Data Taruna</h2>
+    <p style="color:var(--dim);font-size:12.5px;line-height:1.6">Isi data berikut sebelum memulai test.</p>
+    <div class="idform">
+      <div><label>Nama Lengkap *</label><input type="text" id="inNama" placeholder="Contoh: Ahmad Rizky Pratama"></div>
+      <div class="idgrid2">
+        <div><label>NIT *</label><input type="text" id="inNIT" placeholder="Contoh: 12345678"></div>
+        <div><label>Semester *</label>
+          <select id="inSemester">
+            <option value="">- Pilih -</option>
+            <option>1A</option><option>1B</option>
+            <option>2A</option><option>2B</option>
+            <option>3A</option><option>3B</option>
+            <option>4A</option><option>4B</option>
+          </select>
+        </div>
+      </div>
+      <div><label>Jurusan *</label>
+        <select id="inJurusan">
+          <option value="">- Pilih -</option>
+          <option>Teknika</option>
+          <option>ETO (Electro Technical Officer)</option>
+          <option>Nautika</option>
+          <option>KALK</option>
+          <option>MLP</option>
+          <option>Permesinan Kapal</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:20px">
+      <button type="button" class="btn ghost" id="btnBackStart" style="flex:1">← Kembali</button>
+      <button type="button" class="btn primary" id="btnConfirmId" style="flex:2">Lanjut ke Test →</button>
+    </div>
+    <div id="idError" style="color:var(--red);font-size:12px;margin-top:10px;display:none">⚠ Mohon lengkapi semua data.</div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="wrap hidden" id="quizScreen">
+  <div class="qbar">
+    <div class="num">SOAL <span id="curNum">1</span>/<span id="totNum">100</span></div>
+    <div class="track"><i id="progressBar"></i></div>
+  </div>
+  <div class="card">
+    <div class="tagrow">
+      <span class="tag m" id="qModule">MODUL 1</span>
+      <span class="tag" id="qTopic">—</span>
+      <span class="tag cat" id="qCat">ELECTRICAL</span>
+      <span class="tag attempt" id="qAttempt">PERCOBAAN 1/5</span>
+    </div>
+    <div class="qtext" id="qText">—</div>
+    <div class="opts" id="qOpts"></div>
+    <div class="navrow">
+      <button type="button" class="btn ghost" id="btnPrev">← Sebelumnya</button>
+      <button type="button" class="btn warn" id="btnFinishNow">✓ Selesai Sekarang</button>
+      <button type="button" class="btn" id="btnNext">Selanjutnya →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="wrap hidden" id="resultScreen">
+  <div id="printArea">
+    <div class="result-header">
+      <div class="result-id">
+        <b>POLTEKPEL SURABAYA</b><br>
+        <span>MARITEST — Kelistrikan Kapal</span><br>
+        <span id="resDate">—</span>
+      </div>
+      <div class="result-id" style="text-align:right">
+        <span>Dosen Pengampu:</span><br>
+        <b>Rafael Sukirno, CE</b>
+      </div>
+    </div>
+    <div class="idcard">
+      <div><b>Nama:</b> <span id="resNama">—</span></div>
+      <div><b>NIT:</b> <span id="resNIT">—</span></div>
+      <div><b>Jurusan:</b> <span id="resJurusan">—</span> &nbsp;•&nbsp; <b>Semester:</b> <span id="resSemester">—</span></div>
+      <div><b>Jumlah Soal:</b> <span id="resJumlah">100</span> soal (total dinilai dari 100)</div>
+    </div>
+    <div style="text-align:center">
+      <div class="attempt-badge" id="resAttemptBadge">Percobaan ke-1</div>
+      <div class="ring" id="ring"><div class="inner"><div class="val" id="resScore">0</div><div class="sub">SKOR</div></div></div>
+      <div class="grade" id="resGrade">—</div>
+      <div id="verdictWrap"></div>
+      <p id="resMsg" style="color:#334155;font-size:12.5px;margin-top:6px"></p>
+    </div>
+    <div class="meta">
+      <div><span>Benar</span><strong id="resOk">0</strong></div>
+      <div><span>Salah</span><strong id="resNo">0</strong></div>
+      <div><span>Kosong</span><strong id="resBlank">0</strong></div>
+      <div><span>Waktu</span><strong id="resTime">00:00</strong></div>
+    </div>
+    <div class="rlist" id="resModules"></div>
+    <div style="margin-top:14px">
+      <h4>📋 Riwayat Percobaan Sesi Ini</h4>
+      <table class="history-table" id="historyTable">
+        <thead><tr><th>#</th><th>Skor</th><th>Benar</th><th>Waktu</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="session-info" id="sessionInfo"></div>
+    <div class="print-answers" id="printAnswers"></div>
+  </div>
+  <div class="result-actions">
+    <button type="button" class="btn primary" id="btnRetry">🔁 Ulangi Test</button>
+    <button type="button" class="btn" id="btnReview">📖 Review</button>
+    <button type="button" class="btn" id="btnPrint">🖨 Cetak PDF</button>
+    <button type="button" class="btn" id="btnNativePrint">🖨 Print Browser</button>
+    <button type="button" class="btn wa" id="btnWa">📤 Kirim ke Dosen (WA)</button>
+    <button type="button" class="btn" id="btnHome">🏠 Home</button>
+  </div>
+  <div class="result-hint">Cetak PDF (Chrome) • Print Browser bisa dari HP • WA ke dosen otomatis terisi.</div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="dhead">
+    <div>
+      <h4>Navigasi Soal</h4>
+      <div class="legend">
+        <span><i style="background:rgba(0,212,160,.6)"></i>Benar</span>
+        <span><i style="background:rgba(255,77,94,.6)"></i>Salah</span>
+        <span><i style="background:#1f3d59"></i>Belum</span>
+      </div>
+    </div>
+    <button type="button" class="icon-btn" id="btnCloseDrawer">✕</button>
+  </div>
+  <div class="dgrid" id="dgrid"></div>
+</aside>
+
+<script>
+(function(){
+"use strict";
+
+const CONFIG = {
+  jumlahSoal: 100,
+  kkm: 70,
+  excellent: 85,
+  remidiMin: 60,
+  maxAttempts: 5,
+  durasiMenit: 180,
+  waDosen: "6282143264020"
+};
+
+const LETTER = ["A","B","C","D"];
+const TOPIC_NAMES = {1:"Dasar Kelistrikan",2:"Sumber Daya & Distribusi",3:"Mesin Listrik",4:"Instalasi & Kabel",5:"Panel & Proteksi",6:"Otomasi, Alarm & Sensor",7:"Baterai & Emergency Power",8:"GA, Permesinan & K3"};
+const LS_SESSION = "maritest_v10_session";
+const LS_TARUNA = "maritest_v10_taruna";
+const LS_SETTINGS = "maritest_v10_settings";
+
+/* ============ BANK SOAL (125) ============ */
+const BANK = [
+{m:1,t:"Hukum Ohm",c:"E",q:"Sebuah tahanan 20 Ω dialiri arus 3 A. Besar tegangan pada tahanan tersebut adalah…",o:["60 V","6,67 V","23 V","0,15 V"],a:0,e:"Hukum Ohm: V = I × R = 3 × 20 = 60 V."},
+{m:1,t:"Rangkaian Paralel",c:"E",q:"Tiga resistor 6 Ω dihubungkan paralel. Tahanan totalnya adalah…",o:["18 Ω","3 Ω","2 Ω","6 Ω"],a:2,e:"1/Rt = 1/6+1/6+1/6 = 3/6 → Rt = 2 Ω."},
+{m:1,t:"Daya Listrik",c:"E",q:"Beban 220 V mengalirkan arus 5 A. Daya yang diserap adalah…",o:["44 W","1100 W","225 W","0,0227 W"],a:1,e:"P = V × I = 220 × 5 = 1100 W."},
+{m:1,t:"Hukum Kirchhoff I",c:"E",q:"Hukum Kirchhoff I (KCL) menyatakan bahwa…",o:["Σ tegangan loop = nol","Σ arus masuk = Σ arus keluar","V sebanding R","P = V × I"],a:1,e:"KCL: Σ arus masuk = Σ arus keluar."},
+{m:1,t:"Hukum Kirchhoff II",c:"E",q:"Hukum Kirchhoff II (KVL) menyatakan bahwa…",o:["Σ ggl = Σ drop tegangan dalam loop tertutup","Σ arus masuk = Σ arus keluar","V = I × R","P = V × I"],a:0,e:"KVL: Σ tegangan loop = nol."},
+{m:1,t:"Satuan Konduktansi",c:"E",q:"Satuan SI untuk konduktansi listrik adalah…",o:["Ohm","Henry","Siemens","Farad"],a:2,e:"Konduktansi (G) = 1/R, satuan Siemens (S)."},
+{m:1,t:"Rangkaian Seri",c:"E",q:"Resistor 4 Ω dan 12 Ω seri pada 32 V. Arus yang mengalir…",o:["0,5 A","2 A","2,67 A","8 A"],a:1,e:"Rt = 16 Ω; I = 32/16 = 2 A."},
+{m:1,t:"Kapasitor",c:"EL",q:"Kapasitor 100 µF diberi 50 V. Muatan tersimpan…",o:["0,5 mC","50 mC","5 mC","500 mC"],a:2,e:"Q = C × V = 5 mC."},
+{m:1,t:"Reaktansi Induktif",c:"E",q:"Induktor 0,1 H pada 50 Hz. XL = …",o:["5 Ω","314 Ω","15,7 Ω","31,4 Ω"],a:3,e:"XL = 2πfL = 31,4 Ω."},
+{m:1,t:"Reaktansi Kapasitif",c:"E",q:"Kapasitor 100 µF pada 50 Hz. XC = …",o:["31,8 Ω","318 Ω","3,18 Ω","63,6 Ω"],a:0,e:"XC = 1/(2πfC) ≈ 31,8 Ω."},
+{m:1,t:"Rangkaian Induktif",c:"E",q:"Pada beban induktif murni AC, arus listrik…",o:["Searah tegangan","Mendahului 90°","Tertinggal 90°","Tertinggal 45°"],a:2,e:"Arus lagging 90°."},
+{m:1,t:"Rangkaian Kapasitif",c:"E",q:"Pada beban kapasitif murni AC, arus listrik…",o:["Searah","Mendahului 90°","Tertinggal 90°","Tertinggal 45°"],a:1,e:"Arus leading 90°."},
+{m:1,t:"Faktor Daya",c:"E",q:"P = 880 W, S = 1100 VA. Faktor dayanya…",o:["1,25","0,5","0,75","0,8"],a:3,e:"cos φ = P/S = 0,8."},
+{m:1,t:"Amperemeter",c:"E",q:"Alat ukur yang dipasang seri untuk mengukur arus…",o:["Voltmeter","Ohmmeter","Amperemeter","Wattmeter"],a:2,e:"Amperemeter seri."},
+{m:1,t:"Hambatan Lampu",c:"E",q:"Lampu 100 W/220 V memiliki hambatan…",o:["220 Ω","484 Ω","48,4 Ω","22 Ω"],a:1,e:"R = V²/P = 484 Ω."},
+{m:1,t:"Sistem 3 Fasa",c:"E",q:"Beban bintang seimbang: VL dan Vph…",o:["VL = Vph","VL = √3 × Vph","VL = Vph/√3","VL = 3 Vph"],a:1,e:"VL = √3 × Vph."},
+{m:1,t:"Energi Listrik",c:"E",q:"1 kWh = … Joule",o:["3,6×10³","360","3,6×10⁶","1000"],a:2,e:"1 kWh = 3,6×10⁶ J."},
+{m:1,t:"Dioda",c:"EL",q:"Dioda semikonduktor berfungsi utama sebagai…",o:["Penguat","Penyearah AC → DC","Penyimpan muatan","Pembagi tegangan"],a:1,e:"Dioda = penyearah satu arah."},
+{m:1,t:"Transistor NPN",c:"EL",q:"Transistor NPN sebagai saklar elektronik bila…",o:["VBE cut-off","Arus basis cukup untuk saturasi","Kolektor dibalik","Basis-emitor dihubung singkat"],a:1,e:"Arus basis cukup → saturasi."},
+{m:1,t:"SCR",c:"EL",q:"SCR akan konduksi bila…",o:["Anode–katode negatif","Ada pulsa trigger gate saat anode positif","Suhu rendah","Arus gate nol"],a:1,e:"Butuh pulsa trigger gate."},
+{m:1,t:"Op-Amp",c:"EL",q:"Op-amp ideal memiliki…",o:["Zin rendah","Zin & gain tak terhingga","Zout tak terhingga","Catu tunggal"],a:1,e:"Zin=∞, gain=∞."},
+{m:1,t:"IC 555",c:"EL",q:"IC 555 banyak digunakan pada rangkaian…",o:["Penguat daya","Timer & osilator","Penyearah besar","Regulator tegangan"],a:1,e:"IC 555 = timer."},
+{m:1,t:"Resistor Warna",c:"EL",q:"Resistor coklat-hitam-merah-emas bernilai…",o:["100 Ω ±5%","1000 Ω ±5%","10 Ω ±5%","1 MΩ ±5%"],a:1,e:"10 × 100 = 1000 Ω."},
+{m:2,t:"Sumber Utama",c:"E",q:"Sumber tenaga listrik utama di kapal…",o:["Baterai","Sel surya","Diesel generator","Turbin angin"],a:2,e:"Genset diesel."},
+{m:2,t:"Tegangan Distribusi",c:"E",q:"Tegangan distribusi penerangan kapal umumnya…",o:["24 V","110/220 V","450 V","6,6 kV"],a:1,e:"110/220 V."},
+{m:2,t:"Konfigurasi Jaringan",c:"E",q:"Sistem distribusi paling umum di kapal…",o:["Cincin","Radial","Mesh","Seri"],a:1,e:"Sistem radial."},
+{m:2,t:"Emergency Gen",c:"E",q:"Emergency generator harus ambil beban maksimal dalam…",o:["5 menit","1 menit","45 detik","30 menit"],a:2,e:"SOLAS: 45 detik."},
+{m:2,t:"Transformator",c:"E",q:"Fungsi trafo pada distribusi kapal…",o:["Ubah frekuensi","Searahkan arus","Simpan energi","Ubah tegangan AC"],a:3,e:"Trafo = ubah V AC."},
+{m:2,t:"Beban Esensial",c:"E",q:"Berikut yang termasuk beban esensial…",o:["Lampu kabin","TV","Steering gear & fire pump","AC kamar"],a:2,e:"Beban esensial = keselamatan."},
+{m:2,t:"Shore Connection",c:"E",q:"Shore connection berfungsi untuk…",o:["Nyalakan mesin","Isi bahan bakar","Isi udara tekan","Terima suplai listrik dari darat"],a:3,e:"Suplai dari darat."},
+{m:2,t:"Busbar",c:"E",q:"Fungsi busbar pada switchboard…",o:["Proteksi arus","Ukur daya","Distribusi tegangan bersama","Pendingin"],a:2,e:"Konduktor distribusi utama."},
+{m:2,t:"Frekuensi Kapal",c:"E",q:"Frekuensi standar listrik kapal…",o:["25 Hz","50/60 Hz","100 Hz","400 Hz"],a:1,e:"50 atau 60 Hz."},
+{m:2,t:"Sinkronisasi",c:"E",q:"Sinkronisasi generator mensyaratkan…",o:["Hanya V sama","Hanya f sama","V, f, fasa, urutan fasa sama","Cukup daya sama"],a:2,e:"Semua sinkron."},
+{m:2,t:"MCB",c:"E",q:"MCB memutus rangkaian saat…",o:["Tegangan turun","Hubung singkat / beban lebih","Frekuensi naik","Daya turun"],a:1,e:"Proteksi korsleting."},
+{m:2,t:"Preferential Trip",c:"E",q:"Fungsi preferential trip…",o:["Putus semua beban","Tambah tegangan","Lepas beban non-esensial bertahap","Isi baterai"],a:2,e:"Cegah blackout total."},
+{m:2,t:"Synchroscope",c:"E",q:"Alat cek kesamaan fasa sebelum paralel…",o:["Megger","Ohmmeter","Tachometer","Synchroscope"],a:3,e:"Jarum di 12 = sinkron."},
+{m:2,t:"IT System",c:"E",q:"Sistem distribusi kapal IT artinya…",o:["Netral ditanahkan langsung","Netral tidak ditanahkan","Netral ke fasa","Netral mengapung"],a:1,e:"IT: netral tidak ditanahkan."},
+{m:2,t:"Load Shedding",c:"E",q:"Tujuan load shedding…",o:["Tambah beban","Cegah overload dengan lepas beban prioritas rendah","Naikkan frekuensi","Isi baterai"],a:1,e:"Lepas beban prioritas rendah."},
+{m:3,t:"Prinsip Generator",c:"E",q:"Prinsip kerja generator berdasarkan…",o:["Hukum Ohm","Hukum Boyle","Hukum Faraday","Hukum Archimedes"],a:2,e:"Hukum Faraday."},
+{m:3,t:"Motor Induksi",c:"E",q:"Motor AC paling umum untuk pompa kapal…",o:["Sinkron","DC seri","Stepper","Induksi 3 fasa"],a:3,e:"Motor induksi 3 fasa."},
+{m:3,t:"Putaran Sinkron",c:"E",q:"Motor induksi 50 Hz, 4 kutub. ns = …",o:["3000","1500","750","1000"],a:1,e:"ns = 120×50/4 = 1500 rpm."},
+{m:3,t:"Slip Motor",c:"E",q:"Motor 4 kutub 50 Hz pada 1440 rpm. Slip = …",o:["2%","4%","5%","6%"],a:1,e:"s = 4%."},
+{m:3,t:"Balik Arah Motor",c:"E",q:"Cara membalik arah motor induksi 3 fasa…",o:["Tambah tegangan","Kurangi frekuensi","Tukar 2 dari 3 kabel fasa","Ganti rotor"],a:2,e:"Tukar 2 fasa."},
+{m:3,t:"Motor DC Seri",c:"E",q:"Motor DC cocok untuk crane karena torsi awal besar…",o:["Shunt","Seri","Kompon","Magnet permanen"],a:1,e:"Motor DC seri."},
+{m:3,t:"Starting Resistor",c:"E",q:"Fungsi starting resistor motor DC…",o:["Tambah torsi","Naikkan V","Kurangi rpm","Batasi arus start"],a:3,e:"Batasi arus start."},
+{m:3,t:"Transformator",c:"E",q:"Trafo N1=500, N2=100, V1=220 V. V2=…",o:["44 V","110 V","55 V","22 V"],a:0,e:"V2 = 220 × 100/500 = 44 V."},
+{m:3,t:"Rugi Trafo",c:"E",q:"Rugi arus Eddy + histeresis disebut…",o:["Rugi tembaga","Rugi mekanik","Rugi inti","Rugi angin"],a:2,e:"Rugi inti."},
+{m:3,t:"Kutub Generator",c:"E",q:"Generator 1500 rpm, f=50 Hz. p = …",o:["2","6","4","8"],a:2,e:"p = 4."},
+{m:3,t:"AVR",c:"EL",q:"Fungsi AVR pada generator…",o:["Atur rpm","Jaga V keluaran stabil","Atur bahan bakar","Atur suhu"],a:1,e:"AVR = stabilkan V."},
+{m:3,t:"Bintang 380V",c:"E",q:"Motor bintang pada 380 V. Vph = …",o:["380 V","190 V","220 V","660 V"],a:2,e:"Vph = 220 V."},
+{m:3,t:"Megger",c:"E",q:"Alat ukur tahanan isolasi…",o:["Multimeter","Tang amper","Megger","Oscilloscope"],a:2,e:"Megger."},
+{m:3,t:"Motor Sinkron",c:"E",q:"Keunggulan motor sinkron…",o:["Murah","Kecepatan konstan tak terpengaruh beban","Tak perlu eksitasi","Tak perlu starting"],a:1,e:"Kecepatan konstan."},
+{m:4,t:"Standar Kabel",c:"E",q:"Kabel kapal harus memenuhi standar…",o:["SNI biasa","IEC 60228 / marine","Otomotif","Tidak ada"],a:1,e:"Standar marine."},
+{m:4,t:"Warna Fasa",c:"E",q:"Warna konduktor fasa…",o:["Hijau-kuning","Biru","Putih","Coklat/hitam/abu-abu"],a:3,e:"Coklat/hitam/abu-abu."},
+{m:4,t:"Warna Ground",c:"E",q:"Kabel hijau-kuning menandakan…",o:["Fasa","Netral","Pentanahan","Positif"],a:2,e:"Grounding."},
+{m:4,t:"Cable Tray",c:"E",q:"Fungsi cable tray…",o:["Kabel rapi & terlindung","Sambung kabel","Ukur arus","Putus arus"],a:0,e:"Rapi & lindungi."},
+{m:4,t:"Cable Gland",c:"E",q:"Fungsi cable gland…",o:["Sambung 2 kabel","Ukur tegangan","Percepat arus","Kunci kabel di panel, watertight"],a:3,e:"Watertight."},
+{m:4,t:"Isolasi Panas",c:"E",q:"Kabel di ruang mesin tahan panas minimal…",o:["60°C","70°C","85°C atau lebih","30°C"],a:2,e:"85°C+."},
+{m:4,t:"Penampang Kabel",c:"E",q:"Luas penampang didasarkan pada…",o:["Warna","Berat","KHA & panjang kabel","Umur"],a:2,e:"KHA & drop tegangan."},
+{m:4,t:"Drop Tegangan",c:"E",q:"Susut tegangan penerangan kapal maks…",o:["2,5%","5%","10%","15%"],a:1,e:"~5%."},
+{m:4,t:"Rute Kabel",c:"E",q:"Yang harus dihindari saat pasang kabel…",o:["Dekat tangki BBM & panas tanpa pelindung","Ruang pendingin","Kamar mesin","Anjungan"],a:0,e:"Jauh dari panas."},
+{m:4,t:"Isolasi Rusak",c:"E",q:"Isolasi kabel terkelupas dapat menyebabkan…",o:["V naik","f turun","Daya naik","Hubung singkat & kebakaran"],a:3,e:"Korsleting."},
+{m:4,t:"Junction Box",c:"E",q:"Fungsi junction box…",o:["Sumber tegangan","Tempat sambung kabel","Alat ukur","Alat pengaman"],a:1,e:"Tempat sambungan."},
+{m:5,t:"Fungsi MSB",c:"E",q:"Fungsi utama MSB…",o:["Simpan BBM","Dinginkan mesin","Terima daya genset & distribusi","Ukur kedalaman"],a:2,e:"Pusat distribusi."},
+{m:5,t:"Thermal Overload",c:"E",q:"Proteksi berdasarkan panas berlebih…",o:["Thermal overload relay","Fuse","Kontaktor","Timer"],a:0,e:"Bimetal."},
+{m:5,t:"Fuse",c:"E",q:"Sekering bekerja dengan cara…",o:["Kontak elektromagnet","Elemen lebur meleleh","Tutup rangkaian","Turunkan V"],a:1,e:"Elemen lebur."},
+{m:5,t:"MCB C16",c:"E",q:"MCB C16 menunjukkan…",o:["16 V","16 W","16 Ω","16 A karakteristik C"],a:3,e:"16 A, kurva C."},
+{m:5,t:"Kontaktor",c:"E",q:"Fungsi kontaktor…",o:["Ukur arus","Stabilkan V","Simpan energi","Hubung/putus rangkaian daya elektromagnetik"],a:3,e:"Saklar elektromagnetik."},
+{m:5,t:"Self Holding",c:"E",q:"Rangkaian kontrol tetap aktif setelah start dilepas…",o:["Interlock","Timer","Self holding","DOL"],a:2,e:"Kontak NO paralel start."},
+{m:5,t:"Interlock",c:"E",q:"Interlock maju-mundur mencegah…",o:["2 kontaktor aktif bersamaan","Rpm tinggi","Arus start","Lampu nyala"],a:0,e:"Cegah korsleting."},
+{m:5,t:"ELCB/RCD",c:"EL",q:"Alat deteksi arus bocor ke tanah…",o:["MCB","ELCB/RCD","Kontaktor","Timer"],a:1,e:"Deteksi arus bocor."},
+{m:5,t:"Earth Fault",c:"E",q:"Gangguan earth fault ditandai oleh…",o:["Mesin mati","f naik","V naik","Lampu indikator earth fault"],a:3,e:"Indikator + alarm."},
+{m:5,t:"Amperemeter",c:"E",q:"Fungsi amperemeter di panel…",o:["Ukur V","Ukur daya","Ukur arus beban","Ukur f"],a:2,e:"Arus beban."},
+{m:5,t:"Wattmeter",c:"E",q:"Alat ukur daya listrik…",o:["Voltmeter","Wattmeter","Amperemeter","Megger"],a:1,e:"Daya aktif."},
+{m:5,t:"Frequency Meter",c:"E",q:"Instrumentasi yang menunjukkan frekuensi…",o:["Frequency meter","Synchroscope","Voltmeter","Wattmeter"],a:0,e:"Frekuensi (Hz)."},
+{m:6,t:"Sensor Level",c:"EL",q:"Sensor untuk deteksi ketinggian cairan di tangki…",o:["Thermocouple","Proximity","Level/float switch","Photo"],a:2,e:"Float switch."},
+{m:6,t:"Thermocouple",c:"EL",q:"Sensor suhu dari perbedaan tegangan 2 logam…",o:["RTD","Thermocouple","LDR","Strain gauge"],a:1,e:"Efek Seebeck."},
+{m:6,t:"RTD",c:"EL",q:"RTD bekerja berdasarkan…",o:["Cahaya","Tekanan","Frekuensi","Tahanan vs suhu"],a:3,e:"Tahanan vs suhu."},
+{m:6,t:"Sensor Tekanan",c:"EL",q:"Sensor tekanan mengubah tekanan menjadi…",o:["Suara","Sinyal listrik 4–20 mA","Cahaya","Mekanik saja"],a:1,e:"4–20 mA."},
+{m:6,t:"Sinyal Standar",c:"EL",q:"Standar sinyal analog instrumentasi kapal…",o:["0–1 V","1–5 A","4–20 mA","0–100 mA"],a:2,e:"4–20 mA."},
+{m:6,t:"Alarm Suhu",c:"EL",q:"Alarm saat suhu mesin lewat batas…",o:["Low level","Earth fault","Overload","High temperature"],a:3,e:"High temp."},
+{m:6,t:"Dead Band",c:"EL",q:"Fungsi dead band pada alarm…",o:["Percepat respon","Cegah alarm berulang di sekitar set point","Tambah volume","Matikan sensor"],a:1,e:"Cegah chatter."},
+{m:6,t:"Proximity",c:"EL",q:"Sensor yang deteksi logam tanpa kontak…",o:["Thermistor","Load cell","Flow meter","Proximity induktif"],a:3,e:"Induktif."},
+{m:6,t:"Acknowledge",c:"EL",q:"Tombol Acknowledge…",o:["Matikan sistem","Tambah alarm","Akui alarm, matikan suara, indikator tetap","Reset semua"],a:2,e:"Suara berhenti."},
+{m:6,t:"Flow Meter",c:"EL",q:"Flow meter mengukur…",o:["Suhu","Tekanan","Level","Laju aliran"],a:3,e:"Laju aliran."},
+{m:6,t:"Kontrol Level",c:"EL",q:"Sistem otomasi start/stop pompa berdasarkan…",o:["Suhu","Level otomatis","Daya","Kecepatan"],a:1,e:"Level otomatis."},
+{m:6,t:"Fire Detector",c:"EL",q:"Sensor deteksi asap…",o:["Float switch","RTD","Smoke detector","Proximity"],a:2,e:"Smoke detector."},
+{m:6,t:"PLC",c:"EL",q:"Fungsi PLC…",o:["Ukur V","Proteksi arus","Backup daya","Pengendali logika terprogram"],a:3,e:"Logika terprogram."},
+{m:6,t:"Fotoelektrik",c:"EL",q:"Sensor fotoelektrik bekerja dari…",o:["Suhu","Intensitas cahaya","Tekanan","Medan magnet"],a:1,e:"Intensitas cahaya."},
+{m:6,t:"Encoder",c:"EL",q:"Encoder pada motor berfungsi…",o:["Ukur arus","Deteksi posisi & kecepatan","Ukur suhu bearing","Atur V"],a:1,e:"Posisi & rpm."},
+{m:6,t:"PWM",c:"EL",q:"PWM mengatur kecepatan motor DC dengan…",o:["Ubah f","Ubah duty cycle","Searahkan AC","Stabilkan V"],a:1,e:"Duty cycle."},
+{m:6,t:"HMI",c:"EL",q:"HMI berfungsi sebagai…",o:["Ukur arus","Antarmuka operator ↔ sistem","Simpan data","Gerakkan motor"],a:1,e:"Antarmuka operator."},
+{m:6,t:"SCADA",c:"EL",q:"SCADA untuk…",o:["Ukur isolasi","Monitoring & kontrol terpusat","Isi baterai","Atur BBM"],a:1,e:"Kontrol terpusat."},
+{m:6,t:"Analog vs Digital",c:"EL",q:"Perbedaan sinyal analog & digital…",o:["Analog kontinu, digital diskrit","Analog diskrit, digital kontinu","Keduanya kontinu","Keduanya digital"],a:0,e:"Analog kontinu."},
+{m:7,t:"Jenis Baterai",c:"E",q:"Jenis baterai umum untuk darurat kapal…",o:["Lithium polymer","Lead acid / Ni-Cd","Alkaline kecil","Sel bahan bakar"],a:1,e:"Lead acid."},
+{m:7,t:"Tegangan Sel",c:"E",q:"Tegangan nominal 1 sel lead acid…",o:["1,5 V","3,7 V","2 V","12 V"],a:2,e:"2 V/sel."},
+{m:7,t:"Berat Jenis",c:"E",q:"Berat jenis elektrolit baterai penuh…",o:["1,100","1,500","1,280","1,200"],a:2,e:"1,280."},
+{m:7,t:"Battery Charger",c:"E",q:"Fungsi battery charger…",o:["Kosongkan","Ukur V","Ubah DC→AC","Isi baterai dari AC"],a:3,e:"Isi baterai."},
+{m:7,t:"Kapasitas",c:"E",q:"Kapasitas baterai satuannya…",o:["Volt","Ah","Watt","Ohm"],a:1,e:"Ah."},
+{m:7,t:"Perhitungan",c:"E",q:"Baterai 100 Ah, beban 20 A. Habis dalam…",o:["20 jam","2 jam","5 jam","2000 jam"],a:2,e:"5 jam."},
+{m:7,t:"Gas Baterai",c:"E",q:"Saat charging keluar gas…",o:["Nitrogen","Helium","H₂ & O₂","CO"],a:2,e:"H₂ & O₂."},
+{m:7,t:"Emergency Source",c:"E",q:"Sumber daya darurat ditempatkan…",o:["Dalam kamar mesin","Bawah kamar mesin","Dalam palka","Di geladak cuaca / luar kamar mesin"],a:3,e:"Luar kamar mesin."},
+{m:7,t:"DC 24V",c:"E",q:"Sistem DC 24 V untuk…",o:["Mesin induk","Winch","Kontrol, alarm, penerangan darurat","Bow thruster"],a:2,e:"Kontrol & darurat."},
+{m:7,t:"Rectifier",c:"EL",q:"Rectifier berfungsi…",o:["DC→AC","Naikkan f","Turunkan R","AC→DC"],a:3,e:"AC→DC."},
+{m:7,t:"Inverter",c:"EL",q:"Inverter berfungsi…",o:["AC→DC","DC→AC","Simpan daya","Ukur daya"],a:1,e:"DC→AC."},
+{m:7,t:"Buck Converter",c:"EL",q:"Konverter buck berfungsi…",o:["Naikkan V DC","Turunkan V DC","DC→AC","AC→DC"],a:1,e:"Step-down DC."},
+{m:7,t:"Baterai Lithium",c:"EL",q:"Keunggulan baterai lithium…",o:["Lebih murah","Energy density tinggi & cycle life panjang","Tak perlu BMS","V sel rendah"],a:1,e:"Energy density tinggi."},
+{m:8,t:"General Arrangement",c:"E",q:"GA kapal adalah…",o:["Gambar mesin","Gambar rangkaian listrik","Gambar tata letak umum ruangan & peralatan","Gambar propeller"],a:2,e:"Tata letak umum."},
+{m:8,t:"Letak Kamar Mesin",c:"E",q:"Kamar mesin umumnya…",o:["Di haluan","Di buritan/agak belakang","Di atas anjungan","Tengah palka"],a:1,e:"Buritan."},
+{m:8,t:"Pompa Transfer",c:"E",q:"Mesin bantu untuk pindah bahan bakar…",o:["Mesin induk","Ketel uap","Propeller","Pompa transfer BBM"],a:3,e:"Pompa transfer."},
+{m:8,t:"Steering Gear",c:"E",q:"Penggerak utama steering gear modern…",o:["Turbin uap","Motor listrik hidrolik","Diesel langsung","Angin"],a:1,e:"Motor listrik hidrolik."},
+{m:8,t:"Perawatan Panel",c:"E",q:"Sebelum perawatan panel bertegangan…",o:["Buka panel","Panggil rekan","Putus sumber & pasang LOTO","Bersihkan dulu"],a:2,e:"LOTO."},
+{m:8,t:"APD",c:"E",q:"APD wajib di instalasi tegangan tinggi…",o:["Kacamata biasa","Masker kain","Celemek","Sarung tangan & sepatu isolasi, helm"],a:3,e:"APD isolasi."},
+{m:8,t:"Preventive Maint",c:"E",q:"Preventive maintenance motor meliputi…",o:["Ganti motor bulanan","Cek isolasi, pelumasan, kebersihan","Matikan terus","Tambah beban"],a:1,e:"Cek berkala."},
+{m:8,t:"Overheat Motor",c:"E",q:"Penyebab utama overheating motor…",o:["V stabil","Pelumasan cukup","Beban lebih, ventilasi buruk, bearing rusak","Pendingin baik"],a:2,e:"Beban lebih & ventilasi."},
+{m:8,t:"Pemadam Api",c:"E",q:"Media pemadam kebakaran listrik…",o:["Air","CO₂ / dry chemical","Pasir basah","Busa air"],a:1,e:"CO₂."},
+{m:8,t:"Grounding",c:"E",q:"Tujuan grounding peralatan listrik…",o:["Tambah daya","Kurangi biaya","Tambah V","Alirkan arus bocor ke lambung/tanah"],a:3,e:"Alirkan arus bocor."},
+{m:8,t:"Log Book",c:"E",q:"Fungsi electrical log book…",o:["Simpan gambar","Catat parameter operasi & kejadian","Simpan alat","Daftar inventaris"],a:1,e:"Catat operasi."}
+];
+
+/* ============ STATE ============ */
+var QUESTIONS = [];
+var state = {idx:0,answers:[],locked:[],startTime:0,timer:null,sessionTimer:null,finished:false};
+var session = {start:null,attempts:[],expired:false};
+var taruna = {nama:"",nit:"",jurusan:"",semester:""};
+
+function $(id){return document.getElementById(id);}
+function fmt(s){s=Math.max(0,Math.floor(s));var m=Math.floor(s/60),ss=s%60;return String(m).padStart(2,"0")+":"+String(ss).padStart(2,"0");}
+function elapsed(){return Math.floor((Date.now()-state.startTime)/1000);}
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function pickQuestions(n){
+  var eList = BANK.filter(function(q){return q.c==="E";});
+  var elList = BANK.filter(function(q){return q.c==="EL";});
+  var eNeed = Math.round(n*0.7);
+  var elNeed = n - eNeed;
+  if(eNeed > eList.length) eNeed = eList.length;
+  if(elNeed > elList.length) elNeed = elList.length;
+  var picked = shuffle(eList).slice(0,eNeed).concat(shuffle(elList).slice(0,elNeed));
+  if(picked.length < n){
+    var usedIds = picked.map(function(q){return q.q;});
+    var remaining = BANK.filter(function(q){return usedIds.indexOf(q.q)<0;});
+    picked = picked.concat(shuffle(remaining).slice(0, n-picked.length));
+  }
+  return picked;
+}
+
+function buildShuffledQuestions(){
+  var picked = pickQuestions(CONFIG.jumlahSoal);
+  var order = shuffle(picked.map(function(_,i){return i;}));
+  return order.map(function(idx){
+    var q = picked[idx];
+    var pairs = q.o.map(function(text,i){return {text:text,isCorrect:i===q.a};});
+    var shuffledOpts = shuffle(pairs);
+    var newA = -1;
+    for(var k=0;k<shuffledOpts.length;k++){ if(shuffledOpts[k].isCorrect){ newA = k; break; } }
+    return {m:q.m, t:q.t, c:q.c, q:q.q, o:shuffledOpts.map(function(o){return o.text;}), a:newA, e:q.e};
+  });
+}
+
+/* SESSION */
+function loadSession(){
+  try{
+    var raw = localStorage.getItem(LS_SESSION);
+    if(!raw) return null;
+    var s = JSON.parse(raw);
+    if(!s.start) return null;
+    if(Date.now() - s.start > CONFIG.durasiMenit*60000) return {start:s.start,attempts:s.attempts||[],expired:true};
+    return {start:s.start, attempts:s.attempts||[], expired:false};
+  }catch(e){return null;}
+}
+function saveSession(){ try{localStorage.setItem(LS_SESSION, JSON.stringify({start:session.start, attempts:session.attempts}));}catch(e){} }
+function initSession(){
+  var saved = loadSession();
+  if(saved && !saved.expired){ session.start = saved.start; session.attempts = saved.attempts; session.expired = false; }
+  else { session.start = Date.now(); session.attempts = []; session.expired = false; saveSession(); }
+  updateSessionStatus();
+  startSessionTimer();
+}
+function updateSessionStatus(){
+  var el = $("sessionStatus"); if(!el) return;
+  var sisa = CONFIG.maxAttempts - session.attempts.length;
+  var sisaW = Math.max(0, CONFIG.durasiMenit*60000 - (Date.now()-session.start));
+  var jam = Math.floor(sisaW/3600000), mnt = Math.floor((sisaW%3600000)/60000);
+  if(sisa <= 0){ el.innerHTML = '<span style="color:var(--red)">⚠ Batas '+CONFIG.maxAttempts+'x percobaan tercapai.</span>'; }
+  else { el.innerHTML = 'Sesi aktif • Sisa <b style="color:var(--accent)">'+sisa+'</b> percobaan • Waktu total <b style="color:var(--accent2)">'+jam+'j '+mnt+'m</b>'; }
+  var ap = $("statAttempt"); if(ap) ap.textContent = session.attempts.length;
+  var apill = $("attemptPill"); if(apill) apill.style.opacity = sisa<=0 ? .5 : 1;
+}
+function startSessionTimer(){
+  clearInterval(state.sessionTimer);
+  state.sessionTimer = setInterval(function(){
+    updateSessionStatus();
+    if(Date.now() - session.start > CONFIG.durasiMenit*60000){
+      clearInterval(state.sessionTimer);
+      if(!state.finished && !$("quizScreen").classList.contains("hidden")){
+        alert("⏰ Waktu sesi habis. Test diakhiri otomatis.");
+        finish();
+      }
+    }
+  }, 10000);
+}
+function addAttempt(a){ session.attempts.push(a); saveSession(); updateSessionStatus(); }
+
+/* TARUNA */
+function loadTaruna(){
+  try{
+    var s = JSON.parse(localStorage.getItem(LS_TARUNA)||"{}");
+    taruna = {nama:s.nama||"", nit:s.nit||"", jurusan:s.jurusan||"", semester:s.semester||""};
+    if($("inNama")) $("inNama").value = taruna.nama;
+    if($("inNIT")) $("inNIT").value = taruna.nit;
+    if($("inJurusan")) $("inJurusan").value = taruna.jurusan;
+    if($("inSemester")) $("inSemester").value = taruna.semester;
+    updateNavTaruna();
+  }catch(e){}
+}
+function saveTaruna(){ try{localStorage.setItem(LS_TARUNA, JSON.stringify(taruna));}catch(e){} }
+function updateNavTaruna(){
+  var pill = $("tarunaPill"); if(!pill) return;
+  if(taruna.nama){ pill.style.display = "flex"; $("navTaruna").textContent = taruna.nama + (taruna.nit?" • "+taruna.nit:""); }
+  else { pill.style.display = "none"; }
+}
+
+/* SETTINGS */
+function loadSettings(){
+  try{
+    var s = JSON.parse(localStorage.getItem(LS_SETTINGS)||"{}");
+    if(s.theme === "light") document.body.classList.add("light");
+    if(s.font) document.documentElement.style.setProperty("--fs", s.font+"px");
+    if($("setTheme")) $("setTheme").value = s.theme || "dark";
+    if($("setFont")) $("setFont").value = s.font || "15";
+  }catch(e){}
+}
+function saveSettings(){
+  try{
+    localStorage.setItem(LS_SETTINGS, JSON.stringify({
+      theme: $("setTheme") ? $("setTheme").value : "dark",
+      font: $("setFont") ? $("setFont").value : "15"
+    }));
+  }catch(e){}
+}
+
+/* TIMER */
+function startTimer(){
+  state.startTime = Date.now();
+  clearInterval(state.timer);
+  state.timer = setInterval(function(){
+    var t = $("statTime");
+    if(t){
+      var sisaSesi = Math.max(0, Math.floor((CONFIG.durasiMenit*60000 - (Date.now()-session.start))/1000));
+      t.textContent = fmt(sisaSesi);
+      var pill = $("timePill");
+      if(pill){
+        pill.classList.remove("warn","danger");
+        if(sisaSesi < 300) pill.classList.add("danger");
+        else if(sisaSesi < 900) pill.classList.add("warn");
+      }
+    }
+  }, 1000);
+}
+
+/* DRAWER */
+function buildDrawer(){
+  var g = $("dgrid"); if(!g) return;
+  g.innerHTML = "";
+  QUESTIONS.forEach(function(_,i){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = i+1;
+    b.addEventListener("click", function(){ state.idx = i; closeDrawer(); renderQuestion(); });
+    g.appendChild(b);
+  });
+}
+function refreshDrawer(){
+  var g = $("dgrid"); if(!g) return;
+  var btns = g.children;
+  for(var i=0;i<btns.length;i++){
+    btns[i].className = "";
+    if(state.answers[i] !== null && state.answers[i] !== undefined){
+      btns[i].classList.add(state.answers[i] === QUESTIONS[i].a ? "ok" : "no");
+    }
+    if(i === state.idx) btns[i].classList.add("cur");
+  }
+}
+function openDrawer(){ var d=$("drawer"),s=$("scrim"); if(d) d.classList.add("open"); if(s) s.classList.add("on"); refreshDrawer(); }
+function closeDrawer(){ var d=$("drawer"),s=$("scrim"); if(d) d.classList.remove("open"); if(s) s.classList.remove("on"); }
+
+/* RENDER */
+function refreshStats(){
+  var ok=0,no=0;
+  for(var i=0;i<state.answers.length;i++){
+    if(state.answers[i]===null||state.answers[i]===undefined) continue;
+    if(state.answers[i]===QUESTIONS[i].a) ok++; else no++;
+  }
+  if($("statOk")) $("statOk").textContent = ok;
+  if($("statNo")) $("statNo").textContent = no;
+}
+
+function renderQuestion(){
+  var i = state.idx, q = QUESTIONS[i];
+  if(!q) return;
+  $("curNum").textContent = i+1;
+  $("progressBar").style.width = ((i+1)/QUESTIONS.length*100) + "%";
+  $("qModule").textContent = "MODUL " + q.m;
+  $("qTopic").textContent = q.t || TOPIC_NAMES[q.m] || "—";
+  $("qCat").textContent = q.c === "EL" ? "ELECTRONIC" : "ELECTRICAL";
+  $("qCat").style.color = q.c === "EL" ? "var(--blue)" : "var(--accent)";
+  $("qAttempt").textContent = "PERCOBAAN " + (session.attempts.length+1) + "/" + CONFIG.maxAttempts;
+  $("qText").textContent = q.q;
+  var box = $("qOpts"); box.innerHTML = "";
+  var chosen = state.answers[i], locked = state.locked[i];
+  q.o.forEach(function(text,k){
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "opt";
+    var spanK = document.createElement("span"); spanK.className = "k"; spanK.textContent = LETTER[k];
+    var spanT = document.createElement("span"); spanT.textContent = text;
+    btn.appendChild(spanK); btn.appendChild(spanT);
+    if(locked){
+      btn.classList.add("locked");
+      if(k === q.a) btn.classList.add("correct");
+      else if(k === chosen) btn.classList.add("wrong");
+      else btn.classList.add("dim");
+    } else {
+      btn.addEventListener("click", function(){ answer(k); });
+    }
+    box.appendChild(btn);
+  });
+  $("btnPrev").disabled = (i === 0);
+  $("btnPrev").style.opacity = (i === 0) ? .4 : 1;
+  $("btnNext").textContent = (i === QUESTIONS.length-1) ? "Selesai & Lihat Skor ✓" : "Selanjutnya →";
+  refreshDrawer();
+  refreshStats();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function answer(k){
+  var i = state.idx;
+  if(state.locked[i]) return;
+  state.answers[i] = k;
+  state.locked[i] = true;
+  var q = QUESTIONS[i];
+  var correct = (k === q.a);
+  renderQuestion();
+  refreshStats();
+  var answeredCount = state.answers.filter(function(a){return a!==null && a!==undefined;}).length;
+  var isLast = (i === QUESTIONS.length-1) && (answeredCount === QUESTIONS.length);
+  showModal({
+    correct: correct,
+    correctText: LETTER[q.a] + ". " + q.o[q.a],
+    chosenText: LETTER[k] + ". " + q.o[k],
+    exp: q.e,
+    isLast: isLast,
+    onNext: function(){
+      if(i < QUESTIONS.length-1){ state.idx = i+1; renderQuestion(); }
+      else if(answeredCount === QUESTIONS.length){ finish(); }
+      else { renderQuestion(); }
+    }
+  });
+}
+
+function showModal(opts){
+  var ov = document.createElement("div"); ov.className = "overlay";
+  var headClass = opts.correct ? "ok" : "no";
+  var ico = opts.correct ? "✔" : "✕";
+  var titleColor = opts.correct ? "var(--accent)" : "var(--red)";
+  var title = opts.correct ? "Jawaban BENAR" : "Jawaban SALAH";
+  var sub = opts.correct ? "Pertahankan, taruna! ⚓" : "Pelajari kembali materinya ya.";
+  var html = '<div class="modal">';
+  html += '<div class="mhead '+headClass+'"><div class="mico">'+ico+'</div><div><h3 style="color:'+titleColor+'">'+title+'</h3><p>'+sub+'</p></div></div>';
+  html += '<div class="mbody">';
+  if(!opts.correct){
+    html += '<div class="lbl">Jawaban Anda</div><div class="ans no"><span class="bdg">✕</span><span>'+opts.chosenText+'</span></div>';
+  }
+  html += '<div class="lbl">Jawaban Benar</div><div class="ans ok"><span class="bdg">✓</span><span>'+opts.correctText+'</span></div>';
+  html += '<div class="lbl">Pembahasan</div><div class="exp">'+opts.exp+'</div>';
+  html += '</div>';
+  html += '<div class="mfoot"><button type="button" class="btn primary" id="mNext">'+(opts.isLast ? "🏁 Lihat Hasil Akhir" : "Lanjut →")+'</button></div>';
+  html += '</div>';
+  ov.innerHTML = html;
+  document.body.appendChild(ov);
+  var btn = ov.querySelector("#mNext");
+  btn.addEventListener("click", function(){ ov.remove(); if(opts.onNext) opts.onNext(); });
+  setTimeout(function(){btn.focus();}, 50);
+}
+
+function buildPrintAnswers(){
+  var wrap = $("printAnswers"); if(!wrap) return;
+  wrap.innerHTML = '<h4>📄 DAFTAR SOAL, JAWABAN &amp; PEMBAHASAN</h4>';
+  QUESTIONS.forEach(function(q,i){
+    var chosen = state.answers[i];
+    var chosenLetter = (chosen===null||chosen===undefined) ? "—" : LETTER[chosen];
+    var correctLetter = LETTER[q.a];
+    var isOk = (chosen === q.a);
+    var statusClass = isOk ? "pa-ok" : "pa-no";
+    var statusText = isOk ? "✓" : "✕";
+    var item = document.createElement("div");
+    item.className = "pa-item";
+    var optsHtml = "";
+    q.o.forEach(function(opt,k){
+      var tag = "";
+      if(k === q.a) tag = ' <span class="pa-ok">✓ (kunci)</span>';
+      else if(k === chosen && !isOk) tag = ' <span class="pa-no">✕ (dipilih)</span>';
+      optsHtml += '<div class="pa-line"><span class="pa-key">'+LETTER[k]+'.</span><span>'+opt+tag+'</span></div>';
+    });
+    item.innerHTML =
+      '<div class="pa-q">'+(i+1)+'. ['+q.c+'] '+q.q+'</div>'+
+      optsHtml+
+      '<div class="pa-line" style="margin-top:6px"><span class="pa-key">→</span><span>Jawaban peserta: <b class="'+statusClass+'">'+chosenLetter+' '+statusText+'</b> &nbsp;|&nbsp; Kunci: <b class="pa-ok">'+correctLetter+'</b></span></div>'+
+      '<div class="pa-exp">💡 '+q.e+'</div>';
+    wrap.appendChild(item);
+  });
+}
+
+function finish(){
+  if(state.finished) return;
+  state.finished = true;
+  clearInterval(state.timer);
+  var totalTime = elapsed();
+  var ok=0,no=0,blank=0;
+  var perModule = {};
+  /* Total soal = 100 tetap (bukan yang dikerjakan) */
+  var TOTAL = QUESTIONS.length;
+  QUESTIONS.forEach(function(q,i){
+    if(!perModule[q.m]) perModule[q.m] = {ok:0, total:0};
+    perModule[q.m].total++;
+    if(state.answers[i]===null || state.answers[i]===undefined) blank++;
+    else if(state.answers[i]===q.a){ ok++; perModule[q.m].ok++; }
+    else no++;
+  });
+  /* Skor dihitung dari TOTAL (100) — bukan dari yang dikerjakan */
+  var score = Math.round(ok / TOTAL * 100);
+  var timeStr = fmt(totalTime);
+  addAttempt({score:score, ok:ok, no:no, blank:blank, time:timeStr, total:TOTAL, ts:Date.now()});
+
+  $("resScore").textContent = score;
+  $("resOk").textContent = ok;
+  $("resNo").textContent = no;
+  $("resBlank").textContent = blank;
+  $("resTime").textContent = timeStr;
+  $("resDate").textContent = new Date().toLocaleString("id-ID");
+  $("resNama").textContent = taruna.nama || "—";
+  $("resNIT").textContent = taruna.nit || "—";
+  $("resJurusan").textContent = taruna.jurusan || "—";
+  $("resSemester").textContent = taruna.semester || "—";
+  $("resJumlah").textContent = TOTAL;
+  $("resAttemptBadge").textContent = "Percobaan ke-" + session.attempts.length + " dari " + CONFIG.maxAttempts;
+
+  var ring = $("ring");
+  var col = score >= CONFIG.excellent ? "#047857" : score >= CONFIG.kkm ? "#1d4ed8" : score >= CONFIG.remidiMin ? "#b45309" : "#b91c1c";
+  ring.style.background = "#f1f5f9";
+  ring.style.boxShadow = "none";
+  $("resScore").style.color = col;
+
+  var grade, msg, verdictClass, verdictText;
+  if(score >= CONFIG.excellent){ grade="A — EXCELLENT"; verdictClass="lulus"; verdictText="✅ LULUS — EXCELLENT"; msg="Luar biasa! Pemahaman kelistrikan kapal Anda sangat baik."; }
+  else if(score >= CONFIG.kkm){ grade="B — BAIK"; verdictClass="lulus"; verdictText="✅ LULUS — BAIK"; msg="Selamat, Anda LULUS! Pertahankan."; }
+  else if(score >= CONFIG.remidiMin){ grade="C — REMIDI"; verdictClass="remidi"; verdictText="⚠ REMIDI — ULANGI"; msg="Nilai di bawah KKM ("+CONFIG.kkm+"). Silakan ulangi test."; }
+  else { grade="D — BELUM LULUS"; verdictClass="gagal"; verdictText="❌ BELUM LULUS"; msg="Pelajari kembali Modul 1–8 lalu ulangi."; }
+
+  $("resGrade").textContent = grade;
+  $("resGrade").style.color = col;
+  $("verdictWrap").innerHTML = '<div class="verdict '+verdictClass+'">'+verdictText+'</div>';
+  $("resMsg").textContent = msg;
+
+  var rl = $("resModules"); rl.innerHTML = "";
+  Object.keys(perModule).sort().forEach(function(m){
+    var d = perModule[m];
+    var pct = Math.round(d.ok / d.total * 100);
+    var row = document.createElement("div"); row.className = "rrow";
+    var barColor = pct>=70 ? "#047857" : pct>=50 ? "#b45309" : "#b91c1c";
+    row.innerHTML = '<span style="color:#1d4ed8;font-weight:700;font-size:11px">M'+m+'</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(TOPIC_NAMES[m]||"")+'</span><div class="bar"><i style="width:'+pct+'%;background:'+barColor+'"></i></div><b style="font-size:11.5px">'+d.ok+'/'+d.total+'</b>';
+    rl.appendChild(row);
+  });
+
+  var tb = $("historyTable").querySelector("tbody"); tb.innerHTML = "";
+  session.attempts.forEach(function(a,i){
+    var tr = document.createElement("tr");
+    var c = a.score >= CONFIG.kkm ? "#047857" : "#b91c1c";
+    var t = a.total ? a.total : TOTAL;
+    tr.innerHTML = '<td>'+(i+1)+'</td><td><b style="color:'+c+'">'+a.score+'</b></td><td>'+a.ok+'/'+t+'</td><td>'+a.time+'</td>';
+    tb.appendChild(tr);
+  });
+
+  var sisa = CONFIG.maxAttempts - session.attempts.length;
+  $("sessionInfo").textContent = sisa > 0 ? ("Sisa "+sisa+" percobaan dalam sesi "+CONFIG.durasiMenit+" menit ini.") : ("⚠ Batas "+CONFIG.maxAttempts+"x percobaan tercapai.");
+  $("btnRetry").disabled = sisa <= 0;
+  $("btnReview").disabled = sisa <= 0;
+  $("btnRetry").style.opacity = sisa <= 0 ? .4 : 1;
+  $("btnReview").style.opacity = sisa <= 0 ? .4 : 1;
+
+  buildPrintAnswers();
+
+  $("quizScreen").classList.add("hidden");
+  $("resultScreen").classList.remove("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function startNewAttempt(){
+  QUESTIONS = buildShuffledQuestions();
+  state = {idx:0, answers:[], locked:[], startTime:Date.now(), timer:null, sessionTimer:state.sessionTimer, finished:false};
+  for(var i=0;i<QUESTIONS.length;i++){ state.answers.push(null); state.locked.push(false); }
+  $("totNum").textContent = QUESTIONS.length;
+  buildDrawer();
+  startTimer();
+  var t = $("statTime"); if(t) t.textContent = fmt(CONFIG.durasiMenit*60);
+  renderQuestion();
+  refreshStats();
+}
+
+function goHome(){
+  try{ localStorage.removeItem(LS_SESSION); localStorage.removeItem(LS_TARUNA); }catch(e){}
+  clearInterval(state.timer); clearInterval(state.sessionTimer);
+  state = {idx:0,answers:[],locked:[],startTime:0,timer:null,sessionTimer:null,finished:false};
+  session = {start:null,attempts:[],expired:false};
+  taruna = {nama:"",nit:"",jurusan:"",semester:""};
+  QUESTIONS = [];
+  if($("statOk")) $("statOk").textContent = "0";
+  if($("statNo")) $("statNo").textContent = "0";
+  if($("statTime")) $("statTime").textContent = "--:--";
+  if($("statAttempt")) $("statAttempt").textContent = "0";
+  if($("tarunaPill")) $("tarunaPill").style.display = "none";
+  if($("agreeRules")) $("agreeRules").checked = false;
+  if($("btnStart")){ $("btnStart").disabled = true; $("btnStart").style.opacity = .4; }
+  if($("inNama")) $("inNama").value = "";
+  if($("inNIT")) $("inNIT").value = "";
+  if($("inJurusan")) $("inJurusan").value = "";
+  if($("inSemester")) $("inSemester").value = "";
+  if($("printAnswers")) $("printAnswers").innerHTML = "";
+  $("resultScreen").classList.add("hidden");
+  $("quizScreen").classList.add("hidden");
+  $("identityScreen").classList.add("hidden");
+  $("startScreen").classList.remove("hidden");
+  initSession();
+  updateNavTaruna();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function bindEvents(){
+  $("btnDrawer").addEventListener("click", function(){
+    var d = $("drawer");
+    if(d.classList.contains("open")) closeDrawer(); else openDrawer();
+  });
+  $("btnCloseDrawer").addEventListener("click", closeDrawer);
+  $("scrim").addEventListener("click", closeDrawer);
+
+  var sp = $("settingsPanel");
+  $("btnSettings").addEventListener("click", function(e){ e.stopPropagation(); sp.classList.toggle("open"); });
+  document.addEventListener("click", function(e){
+    if(!sp.contains(e.target) && e.target !== $("btnSettings")) sp.classList.remove("open");
+  });
+  $("setTheme").addEventListener("change", function(){ document.body.classList.toggle("light", this.value === "light"); saveSettings(); });
+  $("setFont").addEventListener("change", function(){ document.documentElement.style.setProperty("--fs", this.value+"px"); saveSettings(); });
+
+  var agree = $("agreeRules"), btnStart = $("btnStart");
+  agree.addEventListener("change", function(){
+    btnStart.disabled = !this.checked;
+    btnStart.style.opacity = this.checked ? 1 : .4;
+  });
+
+  btnStart.addEventListener("click", function(){
+    initSession();
+    if(session.attempts.length >= CONFIG.maxAttempts){ alert("Batas "+CONFIG.maxAttempts+"x percobaan per sesi tercapai."); return; }
+    if(Date.now() - session.start > CONFIG.durasiMenit*60000){ alert("Sesi sudah habis."); return; }
+    $("startScreen").classList.add("hidden");
+    $("identityScreen").classList.remove("hidden");
+    loadTaruna();
+  });
+
+  $("btnBackStart").addEventListener("click", function(){
+    $("identityScreen").classList.add("hidden");
+    $("startScreen").classList.remove("hidden");
+  });
+  $("btnConfirmId").addEventListener("click", function(){
+    var nama = $("inNama").value.trim(), nit = $("inNIT").value.trim();
+    var jur = $("inJurusan").value, sem = $("inSemester").value;
+    if(!nama || !nit || !jur || !sem){ $("idError").style.display = "block"; return; }
+    $("idError").style.display = "none";
+    taruna = {nama:nama, nit:nit, jurusan:jur, semester:sem};
+    saveTaruna(); updateNavTaruna();
+    $("identityScreen").classList.add("hidden");
+    $("quizScreen").classList.remove("hidden");
+    startNewAttempt();
+  });
+
+  $("btnPrev").addEventListener("click", function(){ if(state.idx > 0){ state.idx--; renderQuestion(); } });
+
+  $("btnFinishNow").addEventListener("click", function(){
+    var answered = state.answers.filter(function(a){return a!==null && a!==undefined;}).length;
+    var kosong = QUESTIONS.length - answered;
+    var ov = document.createElement("div"); ov.className = "overlay";
+    ov.innerHTML = '<div class="modal"><div class="mhead"><div class="mico" style="background:rgba(255,176,32,.18);border:1.5px solid rgba(255,176,32,.5);color:var(--accent2)">⏹</div><div><h3 style="color:var(--accent2)">Selesai Sekarang?</h3><p>Soal terjawab: '+answered+' / '+QUESTIONS.length+(kosong>0?' • Kosong: '+kosong:'')+'</p></div></div><div class="mbody"><div style="font-size:13px;line-height:1.6;color:#c9dcec">Nilai dihitung dari <b style="color:var(--accent2)">total '+QUESTIONS.length+' soal</b>. Soal yang belum dijawab dihitung kosong (nilai 0).</div></div><div class="mfoot" style="padding-top:16px;display:flex;gap:8px"><button type="button" class="btn" id="mCancel" style="flex:1">Lanjut</button><button type="button" class="btn warn" id="mOk" style="flex:1">Ya, Selesai</button></div></div>';
+    document.body.appendChild(ov);
+    ov.querySelector("#mCancel").addEventListener("click", function(){ ov.remove(); });
+    ov.querySelector("#mOk").addEventListener("click", function(){ ov.remove(); finish(); });
+  });
+
+  $("btnNext").addEventListener("click", function(){
+    if(state.idx < QUESTIONS.length-1){ state.idx++; renderQuestion(); return; }
+    var kosong = state.answers.filter(function(a){return a===null || a===undefined;}).length;
+    if(kosong > 0){
+      var ov = document.createElement("div"); ov.className = "overlay";
+      ov.innerHTML = '<div class="modal"><div class="mhead"><div class="mico" style="background:rgba(255,176,32,.18);border:1.5px solid rgba(255,176,32,.5);color:var(--accent2)">⚠</div><div><h3 style="color:var(--accent2)">Masih Ada Soal Kosong</h3><p>Terdapat '+kosong+' soal belum dijawab — dihitung nilai 0.</p></div></div><div class="mfoot" style="padding-top:16px;display:flex;gap:8px"><button type="button" class="btn" id="mCancel" style="flex:1">Kembali</button><button type="button" class="btn primary" id="mOk" style="flex:1">Selesai Tetap</button></div></div>';
+      document.body.appendChild(ov);
+      ov.querySelector("#mCancel").addEventListener("click", function(){ ov.remove(); });
+      ov.querySelector("#mOk").addEventListener("click", function(){ ov.remove(); finish(); });
+    } else finish();
+  });
+
+  $("btnRetry").addEventListener("click", function(){
+    if(session.attempts.length >= CONFIG.maxAttempts){ alert("Batas percobaan tercapai."); return; }
+    if(Date.now() - session.start > CONFIG.durasiMenit*60000){ alert("Sesi sudah habis."); return; }
+    $("resultScreen").classList.add("hidden");
+    $("quizScreen").classList.remove("hidden");
+    startNewAttempt();
+  });
+
+  $("btnReview").addEventListener("click", function(){
+    if(session.attempts.length >= CONFIG.maxAttempts){ alert("Batas percobaan tercapai."); return; }
+    if(Date.now() - session.start > CONFIG.durasiMenit*60000){ alert("Sesi sudah habis."); return; }
+    $("resultScreen").classList.add("hidden");
+    $("quizScreen").classList.remove("hidden");
+    startNewAttempt();
+    openDrawer();
+  });
+
+  $("btnPrint").addEventListener("click", function(){
+    if(typeof html2pdf === "undefined"){ alert("Library PDF belum dimuat. Coba tombol 'Print Browser'."); return; }
+    var el = $("printArea");
+    var opt = {
+      margin:[6,6,6,6],
+      filename:"MARITEST_"+(taruna.nit||"Taruna")+"_"+new Date().toISOString().slice(0,10)+".pdf",
+      image:{type:"jpeg", quality:.95},
+      html2canvas:{scale:2, useCORS:true, backgroundColor:"#ffffff", logging:false, scrollY:0, windowWidth:document.documentElement.scrollWidth},
+      pagebreak:{mode:["css","avoid-all"]},
+      jsPDF:{unit:"mm", format:"a4", orientation:"portrait"}
+    };
+    html2pdf().set(opt).from(el).save();
+  });
+
+  $("btnNativePrint").addEventListener("click", function(){ window.print(); });
+
+  $("btnWa").addEventListener("click", function(){
+    var score = $("resScore").textContent, ok = $("resOk").textContent;
+    var no = $("resNo").textContent, blank = $("resBlank").textContent;
+    var time = $("resTime").textContent, date = $("resDate").textContent;
+    var attempt = $("resAttemptBadge").textContent;
+    var verdict = $("verdictWrap").textContent.trim();
+    var lines = [
+      "*HASIL MARITEST — KELISTRIKAN KAPAL*",
+      "Poltekpel Surabaya | Taruna Teknika & ETO",
+      "Dosen Pengampu: Rafael Sukirno, CE",
+      "",
+      "👤 *"+(taruna.nama||"-")+"*",
+      "🆔 NIT: "+(taruna.nit||"-"),
+      "🎓 "+(taruna.jurusan||"-")+" • Semester "+(taruna.semester||"-"),
+      "📝 Jumlah soal: "+QUESTIONS.length+" (dinilai dari "+QUESTIONS.length+")",
+      "",
+      "📅 "+date,
+      "🔄 "+attempt,
+      "📊 Skor: *"+score+"/100*",
+      "🏆 Status: *"+verdict+"*",
+      "✅ Benar: "+ok,
+      "❌ Salah: "+no,
+      "⬜ Kosong: "+blank,
+      "⏱ Waktu: "+time,
+      "",
+      "_Dikirim otomatis dari MARITEST_"
+    ];
+    var text = encodeURIComponent(lines.join("\n"));
+    var url = "https://wa.me/" + CONFIG.waDosen + "?text=" + text;
+    window.open(url, "_blank");
+  });
+
+  $("btnHome").addEventListener("click", function(){
+    var ov = document.createElement("div"); ov.className = "overlay";
+    ov.innerHTML = '<div class="modal"><div class="mhead"><div class="mico" style="background:rgba(62,166,255,.18);border:1.5px solid rgba(62,166,255,.5);color:var(--blue)">🏠</div><div><h3 style="color:var(--blue)">Kembali ke Home?</h3><p>Anda akan keluar dari test saat ini.</p></div></div><div class="mbody"><div style="font-size:13px;line-height:1.6;color:#c9dcec">Sesi &amp; riwayat akan <b style="color:var(--accent2)">direset</b> — taruna berikutnya memulai dari awal.</div></div><div class="mfoot" style="padding-top:16px;display:flex;gap:8px"><button type="button" class="btn" id="mCancel" style="flex:1">Batal</button><button type="button" class="btn primary" id="mOk" style="flex:1">Ya, Reset &amp; Home</button></div></div>';
+    document.body.appendChild(ov);
+    ov.querySelector("#mCancel").addEventListener("click", function(){ ov.remove(); });
+    ov.querySelector("#mOk").addEventListener("click", function(){ ov.remove(); goHome(); });
+  });
+}
+
+function initMeta(){
+  var tot = BANK.length;
+  var el = 0; BANK.forEach(function(q){ if(q.c === "EL") el++; });
+  var e = tot - el;
+  if($("metaTotal")) $("metaTotal").textContent = tot;
+  if($("metaE")) $("metaE").textContent = e;
+  if($("metaEL")) $("metaEL").textContent = el;
+  if($("totNum")) $("totNum").textContent = CONFIG.jumlahSoal;
+  if($("ruleDurasi")) $("ruleDurasi").textContent = CONFIG.durasiMenit + " menit";
+  if($("ruleAttempts")) $("ruleAttempts").textContent = CONFIG.maxAttempts + " kali";
+  if($("ruleKKM")) $("ruleKKM").textContent = CONFIG.kkm;
+}
+
+function init(){
+  initMeta();
+  loadSettings();
+  initSession();
+  loadTaruna();
+  bindEvents();
+}
+
+if(document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+})();
+</script>
+</body>
+</html>
